@@ -8,7 +8,7 @@
   try { endpoint = endpoint || localStorage.getItem('miyuki-course-api') || ''; } catch (_) {}
   const input = $('#api-url'); input.value = endpoint;
   const nativeGas = !!(window.google && google.script && google.script.run);
-  if (nativeGas) $('#connection-settings').hidden = true;
+  if (nativeGas || window.COURSE_API_URL) $('#connection-settings').hidden = true;
   // 現有 GAS 回傳完整課程頁面，直接嵌入，沿用原本的試算表讀取。
   if (!nativeGas && window.COURSE_SOURCE_MODE === 'embed' && window.COURSE_API_URL) {
     $('#connection-settings').hidden = true;
@@ -82,7 +82,7 @@
       const cb='miyukiCourses_'+Date.now()+'_'+Math.floor(Math.random()*1e6), script=document.createElement('script');
       const target=new URL(url);target.searchParams.set('action','courses');target.searchParams.set('callback',cb);target.searchParams.set('_',String(Date.now()));
       const finish=(error,data)=>{clearTimeout(timer);script.remove();delete window[cb];error?reject(error):resolve(data);};
-      const timer=setTimeout(()=>finish(new Error('連線逾時，請確認 GAS 已部署為可存取的網頁應用程式。')),25000);
+      const timer=setTimeout(()=>finish(new Error('未取得課程資料。請確認已更新套件內的 Code.gs 並部署新版本，以及目前帳號具有存取權限。')),25000);
       window[cb]=data=>finish(null,data);script.onerror=()=>finish(new Error('連線失敗，請確認部署網址與存取權限。'));script.src=target.href;document.head.append(script);
     });
   }
@@ -100,7 +100,7 @@
     }catch(error){if(id!==requestId)return;status.textContent=error.message||'無法讀取課程，請稍後重試。';$('#course-count').textContent='課程連線未完成';catalog={subjects:[],courses:[]};$('#catalog-warnings').hidden=true;}
     finally{if(id===requestId){refresh.disabled=false;search.disabled=!catalog.subjects.length;content.setAttribute('aria-busy','false');}}
   }
-  $('#connection-form').onsubmit=e=>{e.preventDefault();const value=input.value.trim();if(value&&!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(value)){$('#connection-message').textContent='請輸入 https://script.google.com/macros/s/…/exec 格式的正式部署網址。';return;}endpoint=value;try{localStorage.setItem('miyuki-course-api',value);}catch(_){}$('#connection-message').textContent='已套用至這台瀏覽器。若需讓所有訪客使用，請將網址提供給網站管理者設定。';load();};
+  $('#connection-form').onsubmit=e=>{e.preventDefault();const value=input.value.trim();if(value&&!/^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[A-Za-z0-9_-]+\/exec$/.test(value)){$('#connection-message').textContent='請輸入 https://script.google.com/macros/s/…/exec 格式的正式部署網址。';return;}endpoint=value;try{localStorage.setItem('miyuki-course-api',value);}catch(_){}$('#connection-message').textContent='已套用至這台瀏覽器。若需讓所有訪客使用，請將網址提供給網站管理者設定。';load();};
   refresh.onclick=load;search.oninput=render;
   load();
 })();

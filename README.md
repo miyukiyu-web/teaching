@@ -1,54 +1,27 @@
-# Miyuki 的教學日常｜GitHub 發布版
+# Miyuki 教學網站｜拒絕連線修正版
 
-此套件是 2026-10-29 已接上 GAS 課程目錄的最新版網站前端，與目前發布的首頁使用相同的 index.html、catalog.js、config.js。
+此版本以唯讀 JSONP 讀取 GAS 課程資料，再用首頁自己的綠色版型顯示，不使用 iframe。
 
-## 檔案
+## 必須依序完成
 
-| 檔案 | 用途 |
-| --- | --- |
-| index.html | 個人教學首頁、版面與插畫 |
-| catalog.js | 課程載入、重新讀取與 GAS 目錄嵌入 |
-| config.js | 已填入目前使用的 GAS 正式部署網址 |
-| .nojekyll | 讓 GitHub Pages 直接提供靜態檔案 |
-| README.md | 上傳與維護說明 |
+1. 開啟原本 GAS 專案，以本套件 gas/Code.gs 取代 Code.gs。保留您現有的 Index.html，不要刪除。後端仍保留 getCourseData()，供原本的 GAS 前端呼叫。
+2. 按儲存，再到「部署 → 管理部署作業 → 鉛筆圖示 → 版本：新版本 → 部署」。請編輯原本部署，讓 /exec 網址維持不變。此套件已設定原本網址及「個人教學網頁連結資料庫」的試算表 ID。
+3. 此方案供首頁跨站讀取教材資料使用；GAS 需以您自己的身分執行，並允許教材讀者無須登入即可存取資料端點（若學校政策允許，可選「所有人」）。不必開放試算表編輯權。若學校限制匿名存取，請改用原本 GAS 直接開啟版，此套件的 JSONP 讀取不適用。
+4. 在瀏覽器測試 GAS /exec 網址後加上 ?action=courses。成功時應看到包含 ok、subjects、courses 的 JSON 資料，而不是原本的課程網頁。
+5. 在 GitHub 使用 Add file → Upload files，覆蓋最外層的 index.html、catalog.js、config.js，然後 Commit changes。不要把這三個檔案放進 gas 資料夾。
+6. 等 GitHub Pages 更新後，用 Ctrl+F5 重新整理首頁。
 
-## 上傳到 GitHub
+## 更新結果
 
-1. 解壓縮此套件。
-2. 在 GitHub 建立儲存庫，例如 miyuki-teaching。
-3. 選 Add file → Upload files，上傳解壓縮後的檔案。請把 index.html、catalog.js、config.js 放在儲存庫最外層，不要只上傳 ZIP，也不要再包一層資料夾。
-4. 點 Commit changes。
-5. 選 Settings → Pages。
-6. Source 選 Deploy from a branch，分支選 main，資料夾選 / (root)，按 Save。
-7. 等部署成功後，使用 Pages 頁面提供的正式網址開啟網站。
+- 首頁不再嵌入 script.google.com 完整網頁。
+- 「首頁」頁籤只呈現課程名稱與連結。
+- 其他頁籤自動成為科目，依課程單元分組。
+- 保留搜尋、重新讀取、資料提醒及原本綠色版型。
 
-若 Windows 隱藏了 .nojekyll，仍可上傳其餘檔案；本網站沒有依賴以底線開頭的檔案。
+## 資料範圍
 
-## GAS 與試算表如何運作
+此方案只讀取可見頁籤內的教材名稱、單元、網址與備註，不寫入試算表。請使用專用教材試算表，不要混放個資。任何可存取資料端點的人都可能讀取這些教材資料。
 
-- config.js 已設定您的 GAS 網頁應用程式網址及 embed 模式。
-- 開啟首頁就會在「探索我的課程」區域載入現有 GAS 網頁，沿用該網頁讀取試算表的功能。
-- 課程目錄內的視覺樣式、搜尋與科目分類由您現有的 GAS 前端提供。
-- 修改試算表後，可按首頁「重新讀取」重新載入課程目錄。
-- 若瀏覽器限制嵌入或需要 Google 登入，可按「另開課程目錄」。實際能否存取仍依 GAS 的部署權限及教材連結本身的權限而定。
+## 驗證與限制
 
-## 搬到 GitHub 時需要重建 GAS 嗎？
-
-不需要。此套件保存的是目前首頁前端，GAS 後端與試算表繼續使用原有部署，沒有包含 Google Apps Script 編輯器中實際部署程式的匯出備份。
-
-若未來更換 GAS 部署網址，只需修改 config.js 內的 window.COURSE_API_URL，然後提交更新。請保留 window.COURSE_SOURCE_MODE = 'embed'。
-
-## 維護
-
-- 調整個人介紹或首頁設計：編輯 index.html。
-- 更換 GAS 網址：編輯 config.js。
-- 調整課程載入或嵌入功能：編輯 catalog.js。
-- 更改課程內容：編輯原本的 Google 試算表，不需要修改 GitHub 檔案。
-
-GitHub Pages 與原本網站是兩個獨立發布位置；之後在其中一處修改，不會自動同步到另一處。
-
-GitHub 官方說明：
-- https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository
-- https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
-
-來源版本：8f8ba96e5823200aa74fd95ca302b129649255aa
+程式已完成本機語法與模擬資料檢查；目前無法替您直接更新 Google Apps Script 的部署。必須完成上方 GAS 新版本部署後，才能測試真實端點。此套件尚未套用至原本的 Sites 網址，避免在 GAS 更新前中斷現有功能。
