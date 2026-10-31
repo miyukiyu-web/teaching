@@ -11,7 +11,11 @@ window.TEACHING_PROJECTS = [
     "code": "DREAM / 01",
     "name": "青年百億圓夢計畫",
     "description": "彙整海外學習、交流活動與成果分享，記錄學生從探索到行動的學習歷程。",
-    "results": []
+    "results": [
+        { name: "工作坊互動網頁", description: "115年10月03日嘉雲南區工作坊互動式網頁", url: "https://script.google.com/macros/s/AKfycbwKyB1qjUBBLRMwDbapXsHzDVfG_swgWFmXoRg5kbkey-rPoPVqs_kvkRlJBvMlopRaIg/exec" },
+        { name: "成果網站", description: "115年青年百億圓夢計畫成果網頁", url: "https://script.google.com/macros/s/AKfycbxkewCpc9ABvsZXRHKZcep5w0fT3Y98iuguuHS8qFpewspxjr0iX5-FNUT1PZbvHw9p/exec" }
+      
+    ]
   },
   {
     "id": "ai-school",
