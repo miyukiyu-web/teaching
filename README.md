@@ -1,27 +1,99 @@
-# Miyuki 教學網站｜拒絕連線修正版
+# Miyuki 教學首頁｜靜態課程版
 
-此版本以唯讀 JSONP 讀取 GAS 課程資料，再用首頁自己的綠色版型顯示，不使用 iframe。
+## 內容
 
-## 必須依序完成
+- 五門課程：資訊科技、資訊安全、進階程式設計、從零開始學AI、Python程式設計。
+- 資訊科技：9章、36個單元，依老師提供的章節名稱整理。
+- 其他4門課程保留入口，尚未提供章節，因此顯示「即將開課」。
+- 深色科技風課程卡片、章節展開／收合、單元搜尋、教材數量統計。
+- 保留既有4份硬體與網路教材於第6章，及多功能抽籤工具常用連結。
+- 未填教材網址的單元顯示「教材準備中」，不會產生無效按鈕。
+- 課程清單完全來自本機 courses-data.js，不讀取試算表、不呼叫 GAS、不使用 iframe，開啟本機 index.html 也能查看。使用者點選外部教材後，仍依該教材網站本身的權限使用。
 
-1. 開啟原本 GAS 專案，以本套件 gas/Code.gs 取代 Code.gs。保留您現有的 Index.html，不要刪除。後端仍保留 getCourseData()，供原本的 GAS 前端呼叫。
-2. 按儲存，再到「部署 → 管理部署作業 → 鉛筆圖示 → 版本：新版本 → 部署」。請編輯原本部署，讓 /exec 網址維持不變。此套件已設定原本網址及「個人教學網頁連結資料庫」的試算表 ID。
-3. 此方案供首頁跨站讀取教材資料使用；GAS 需以您自己的身分執行，並允許教材讀者無須登入即可存取資料端點（若學校政策允許，可選「所有人」）。不必開放試算表編輯權。若學校限制匿名存取，請改用原本 GAS 直接開啟版，此套件的 JSONP 讀取不適用。
-4. 在瀏覽器測試 GAS /exec 網址後加上 ?action=courses。成功時應看到包含 ok、subjects、courses 的 JSON 資料，而不是原本的課程網頁。
-5. 在 GitHub 使用 Add file → Upload files，覆蓋最外層的 index.html、catalog.js、config.js，然後 Commit changes。不要把這三個檔案放進 gas 資料夾。
-6. 等 GitHub Pages 更新後，用 Ctrl+F5 重新整理首頁。
+## 上傳 GitHub
 
-## 更新結果
+1. 解壓縮檔案。
+2. 將 index.html、catalog.js、courses-data.js 上傳至儲存庫最外層，覆蓋舊版同名檔案；courses-data.js 是新增檔案，請一併上傳。
+3. 按 Commit changes，等待 GitHub Pages 更新後按 Ctrl+F5。
+4. 舊的 config.js 已不會被網頁使用，可以刪除。GAS 與試算表無須再維護，也不必變更其設定。
 
-- 首頁不再嵌入 script.google.com 完整網頁。
-- 「首頁」頁籤只呈現課程名稱與連結。
-- 其他頁籤自動成為科目，依課程單元分組。
-- 保留搜尋、重新讀取、資料提醒及原本綠色版型。
+## 新增一個單元的教材連結（最簡單）
 
-## 資料範圍
+打開 courses-data.js，用 Ctrl+F 找到單元，例如「陣列」。原本是：
 
-此方案只讀取可見頁籤內的教材名稱、單元、網址與備註，不寫入試算表。請使用專用教材試算表，不要混放個資。任何可存取資料端點的人都可能讀取這些教材資料。
+```javascript
+{
+  "id": "1-1",
+  "title": "陣列",
+  "url": "",
+  "resources": []
+}
+```
 
-## 驗證與限制
+把空白網址改成實際教材連結，例如：
 
-程式已完成本機語法與模擬資料檢查；目前無法替您直接更新 Google Apps Script 的部署。必須完成上方 GAS 新版本部署後，才能測試真實端點。此套件尚未套用至原本的 Sites 網址，避免在 GAS 更新前中斷現有功能。
+```javascript
+{
+  "id": "1-1",
+  "title": "陣列",
+  "url": "https://example.com/array.html",
+  "resources": []
+}
+```
+
+example.com 只是格式範例，請替換成您的教材網址。儲存檔案並更新 GitHub 後，單元名稱就會成為可點擊的連結。
+
+## 同一個單元放多份教材
+
+在該單元的 resources 增加內容，例如：
+
+```javascript
+"resources": [
+  { "name": "陣列教學簡報", "url": "https://example.com/slides" },
+  { "name": "陣列互動練習", "url": "https://example.com/practice" }
+]
+```
+
+教材數量會自動更新。若同時填 url 與 resources，會顯示單元主連結及額外教材。
+
+## 新增其他課程的章節
+
+在 subjects 中找到課程名稱，將該課程的 "chapters": [] 改成：
+
+```javascript
+"chapters": [
+  {
+    "id": "1",
+    "title": "第一章的名稱",
+    "description": "本章的簡短介紹。",
+    "units": [
+      { "id": "1-1", "title": "第一節名稱", "url": "", "resources": [] },
+      { "id": "1-2", "title": "第二節名稱", "url": "", "resources": [] }
+    ]
+  }
+]
+```
+
+可參考資訊科技現有章節複製格式，再修改名稱與連結。兩個單元或章節之間要有逗號，保留引號及大括號。
+
+## 修改常用工具連結
+
+courses-data.js 最前方的 shortcuts 可新增工具，例如：
+
+```javascript
+"shortcuts": [
+  { "name": "工具名稱", "url": "https://example.com/tool" }
+]
+```
+
+## 檔案用途
+
+| 檔案 | 用途 |
+| --- | --- |
+| index.html | 網站文字、版面與科技風樣式 |
+| courses-data.js | 五門課程、章節、單元及教材連結；日後主要修改這份 |
+| catalog.js | 靜態課程顯示、搜尋及展開功能 |
+| .nojekyll | GitHub Pages 靜態檔案設定 |
+| README.md | 本說明 |
+
+GitHub 與原本 ChatGPT 網址是兩個獨立的發布位置；在 GitHub 修改課程資料後，原本 ChatGPT 網址不會自動同步。
