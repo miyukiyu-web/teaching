@@ -68,7 +68,7 @@
       {
         "id": "2-6",
         "title": "第9週｜社交工程實作（二）：AI協作鑑識",
-        "url": "",
+        "url": "https://miyukiyu-web.github.io/teaching/security/social-engineering.html",
         "resources": []
       }
     ]
