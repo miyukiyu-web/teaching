@@ -38,7 +38,7 @@
       {
         "id": "2-1",
         "title": "第4週｜認識社交工程",
-        "url": "/security/social-engineering.html",
+        "url": "https://social-engineering-class-miyuki-50.miyuki324.chatgpt.sitel",
         "resources": []
       },
       {
