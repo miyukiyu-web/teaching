@@ -56,7 +56,7 @@
       {
         "id": "2-4",
         "title": "第7週｜電子郵件安全",
-        "url": "",
+        "url": "https://miyuki-phishing-detective.miyuki324.chatgpt.site",
         "resources": []
       },
       {
