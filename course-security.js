@@ -41,7 +41,7 @@
         "url": "https://miyukiyu-web.github.io/teaching/security/social-engineering.html",
         "resources": [
           {
-            title: "社交工程簡介",
+            name: "社交工程簡介",
             url: "https://miyukiyu-web.github.io/teaching/security/social-engineering.pdf"
           }
         ]    
