@@ -38,7 +38,7 @@
       {
         "id": "2-1",
         "title": "第4週｜認識社交工程",
-        "url": "https://social-engineering-class-miyuki-50.miyuki324.chatgpt.sitel",
+        "url": "https://miyukiyu-web.github.io/teaching/security/social-engineering.html",
         "resources": []
       },
       {
@@ -68,7 +68,7 @@
       {
         "id": "2-6",
         "title": "第9週｜社交工程實作（二）：AI協作鑑識",
-        "url": "https://miyukiyu-web.github.io/teaching/security/social-engineering.html",
+        "url": "",
         "resources": []
       }
     ]
