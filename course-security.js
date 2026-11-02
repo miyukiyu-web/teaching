@@ -39,7 +39,7 @@
         "id": "2-1",
         "title": "第4週｜認識社交工程",
         "url": "https://miyukiyu-web.github.io/teaching/security/social-engineering.html",
-        "resources": []
+        "resources": [https://github.com/miyukiyu-web/teaching/security/social-engineering.pdf]
       },
       {
         "id": "2-2",
