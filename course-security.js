@@ -38,11 +38,11 @@
       {
         "id": "2-1",
         "title": "第4週｜認識社交工程",
-        "url": "https://miyukiyu-web.github.io/teaching/security/social-engineering.html",
+        "url": "https://miyukiyu-web.github.io/teaching/security/social-engineering.pdf",
         "resources": [
           {
-            name: "社交工程簡介",
-            url: "https://miyukiyu-web.github.io/teaching/security/social-engineering.pdf"
+            name: "[互動遊戲]社交工程偵查課",
+            url: "https://miyukiyu-web.github.io/teaching/security/social-engineering.html"
           }
         ]    
       },
